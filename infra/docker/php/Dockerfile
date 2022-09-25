@@ -30,9 +30,7 @@ RUN apt-get update \
     intl \
     pdo_mysql \
     zip \
-    bcmath \
-  && composer config -g process-timeout 3600 \
-  && composer config -g repos.packagist composer https://packagist.org
+    bcmath
 
 FROM base AS development
 
