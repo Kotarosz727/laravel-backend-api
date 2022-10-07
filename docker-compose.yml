@@ -30,7 +30,8 @@ services:
       - DB_DATABASE=${DB_DATABASE:-laravel}
       - DB_USERNAME=${DB_USERNAME:-phper}
       - DB_PASSWORD=${DB_PASSWORD:-secret}
-
+    networks:
+      - laravel_web     
   web:
     build:
       context: .
@@ -44,7 +45,8 @@ services:
       - type: bind
         source: ./src
         target: /workspace
-
+    networks:
+      - laravel_web       
   db:
     build:
       context: .
@@ -65,6 +67,8 @@ services:
       - MYSQL_USER=${DB_USERNAME:-phper}
       - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    networks:
+      - laravel_web     
 
   mailhog:
     image: mailhog/mailhog
@@ -73,3 +77,9 @@ services:
         published: ${MAILHOG_PUBLISHED_PORT:-8025}
         protocol: tcp
         mode: host
+    networks:
+      - laravel_web    
+
+networks:
+  laravel_web:
+    external: true
