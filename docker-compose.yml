@@ -2,6 +2,7 @@ version: "3.9"
 volumes:
   db-store:
   psysh-store:
+  php-fpm-socket:
 services:
   app:
     build:
@@ -12,6 +13,11 @@ services:
       - type: bind
         source: ./src
         target: /workspace
+      - type: volume
+        source: php-fpm-socket
+        target: /var/run/php-fpm
+        volume:
+          nocopy: true  
       - type: volume
         source: psysh-store
         target: /root/.config/psysh
@@ -42,6 +48,11 @@ services:
         protocol: tcp
         mode: host
     volumes:
+      - type: volume
+        source: php-fpm-socket
+        target: /var/run/php-fpm
+        volume:
+          nocopy: true
       - type: bind
         source: ./src
         target: /workspace
@@ -82,4 +93,4 @@ services:
 
 networks:
   laravel_web:
-    external: true
+   
