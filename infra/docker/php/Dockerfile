@@ -51,6 +51,8 @@ COPY ./infra/docker/php/php.deploy.ini /usr/local/etc/php/php.ini
 # COPY ./src /workspace
 COPY --chown=www-data:www-data ./src /workspace/
 
+VOLUME ["/var/run/php-fpm"]
+
 RUN composer install -q -n --no-ansi --no-dev --no-scripts --no-progress --prefer-dist \
   && chmod -R 777 storage bootstrap/cache \
   && php artisan optimize:clear \
