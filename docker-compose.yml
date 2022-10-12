@@ -34,7 +34,7 @@ services:
       - DB_HOST=${DB_HOST:-db}
       - DB_PORT=${DB_PORT:-3306}
       - DB_DATABASE=${DB_DATABASE:-laravel}
-      - DB_USERNAME=${DB_USERNAME:-phper}
+      - DB_USERNAME=${DB_USERNAME:-admin}
       - DB_PASSWORD=${DB_PASSWORD:-secret}
     networks:
       - laravel_web     
@@ -57,7 +57,9 @@ services:
         source: ./src
         target: /workspace
     networks:
-      - laravel_web       
+      - laravel_web
+    depends_on:
+      - app
   db:
     build:
       context: .
@@ -75,21 +77,21 @@ services:
           nocopy: true
     environment:
       - MYSQL_DATABASE=${DB_DATABASE:-laravel}
-      - MYSQL_USER=${DB_USERNAME:-phper}
+      - MYSQL_USER=${DB_USERNAME:-admin}
       - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
     networks:
       - laravel_web     
 
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - target: 8025
-        published: ${MAILHOG_PUBLISHED_PORT:-8025}
-        protocol: tcp
-        mode: host
-    networks:
-      - laravel_web    
+  # mailhog:
+  #   image: mailhog/mailhog
+  #   ports:
+  #     - target: 8025
+  #       published: ${MAILHOG_PUBLISHED_PORT:-8025}
+  #       protocol: tcp
+  #       mode: host
+  #   networks:
+  #     - laravel_web    
 
 networks:
   laravel_web:
